@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SRI PUGAL DENTAL CARE - We Are Best Dental Service</title>
+  <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* Appointment Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+    .modal form input, .modal form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .modal form button {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .contact-form button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body id="top">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div class="container">
+        <ul class="contact-list">
+          <li class="contact-item"><ion-icon name="mail-outline"></ion-icon> <a href="mailto:sripugaldentalcare@gmail.com" class="contact-link">sripugaldentalcare@gmail.com</a></li>
+          <li class="contact-item"><ion-icon name="call-outline"></ion-icon> <a href="tel:+917052101786" class="contact-link">+91-63691 593106</a></li>
+        </ul>
+        <ul class="social-list">
+          <li><a href="https://www.facebook.com/jong.wings/" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-youtube"></ion-icon></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="header-bottom" data-header>
+      <div class="container">
+        <img src="images/logo1.png" style="width: 40px;height: 40px;">
+        <a href="#" class="logo" style="font-size: 2.4rem !important;">SRI PUGAL DENTAL CARE</a>
+        <nav class="navbar container" data-navbar>
+          <ul class="navbar-list">
+            <li><a href="#home" class="navbar-link" data-nav-link>Home</a></li>
+            <li><a href="#service" class="navbar-link" data-nav-link>Services</a></li>
+            <li><a href="#about" class="navbar-link" data-nav-link>About Us</a></li>
+            <li><a href="#contact" class="navbar-link" data-nav-link>Contact Us</a></li>
+          </ul>
+        </nav>
+        <a href="#" class="btn book-btn">Book appointment</a>
+        <button class="nav-toggle-btn" aria-label="Toggle menu" data-nav-toggler>
+          <ion-icon name="menu-sharp" aria-hidden="true" class="menu-icon"></ion-icon>
+          <ion-icon name="close-sharp" aria-hidden="true" class="close-icon"></ion-icon>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <article>
+      <!-- HOME -->
+      <section class="section hero" id="home" style="background-image: url('images/hero-bg.png')" aria-label="hero">
+        <div class="container">
+          <div class="hero-content">
+            <p class="section-subtitle">Welcome To SRI PUGAL DENTAL CARE</p>
+            <h1 class="h1 hero-title">We Are Best Dental Service</h1>
+            <p class="hero-text">At We Are Best Dental Service, your oral health is our top priority.</p>
+            <a href="#" class="btn book-btn">Book Appointment</a>
+          </div>
+          <figure class="hero-banner">
+            <img src="images/hero-banner.png" width="587" height="839" alt="hero banner" class="w-100">
+          </figure>
+        </div>
+      </section>
+
+      <!-- SERVICES (full restored) -->
+      <section class="section service" id="service" aria-label="service">
+        <div class="container">
+          <p class="section-subtitle text-center">Our Services</p>
+          <h2 class="h2 section-title text-center">Comprehensive Dental Solutions</h2>
+          <ul class="service-list">
+            <li>
+              <div class="service-card">
+                <div class="card-icon"><img src="images/service-icon-1.png" width="100" height="100" alt="Root Canal" class="w-100"></div>
+                <div><h3 class="h3 card-title">Root Canal Therapy</h3><p class="card-text">Painless root canal treatments to save your natural teeth.</p></div>
+              </div>
+            </li>
+            <li>
+              <div class="service-card">
+                <div class="card-icon"><img src="images/service-icon-2.png" width="100" height="100" alt="Alignment Teeth" class="w-100"></div>
+                <div><h3 class="h3 card-title">Teeth Alignment</h3><p class="card-text">Braces and clear aligners to perfectly align your teeth.</p></div>
+              </div>
+            </li>
+            <li>
+              <div class="service-card">
+                <div class="card-icon"><img src="images/service-icon-3.png" width="100" height="100" alt="Cosmetic Dentistry" class="w-100"></div>
+                <div><h3 class="h3 card-title">Cosmetic Dentistry</h3><p class="card-text">Smile makeovers, whitening, and veneers for a confident smile.</p></div>
+              </div>
+            </li>
+            <li>
+              <div class="service-card">
+                <div class="card-icon"><img src="images/service-icon-4.png" width="100" height="100" alt="Oral Hygiene" class="w-100"></div>
+                <div><h3 class="h3 card-title">Preventive Oral Care</h3><p class="card-text">Routine check-ups and cleaning to maintain oral health.</p></div>
+              </div>
+            </li>
+            <li>
+              <div class="service-card">
+                <div class="card-icon"><img src="images/service-icon-5.png" width="100" height="100" alt="Child Dentistry" class="w-100"></div>
+                <div><h3 class="h3 card-title">Pediatric Dentistry</h3><p class="card-text">Gentle and fun dental care for children of all ages.</p></div>
+              </div>
+            </li>
+            <li>
+              <div class="service-card">
+                <div class="card-icon"><img src="images/service-icon-6.png" width="100" height="100" alt="Dental Implants" class="w-100"></div>
+                <div><h3 class="h3 card-title">Dental Implants</h3><p class="card-text">Permanent solutions to replace missing teeth effectively.</p></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="section about" id="about" aria-label="about">
+        <div class="container">
+          <figure class="about-banner">
+            <img src="images/about-banner.png" width="470" height="538" loading="lazy" alt="about banner" class="w-100">
+          </figure>
+          <div class="about-content">
+            <p class="section-subtitle">About Us</p>
+            <h2 class="h2 section-title">We Care For Your Dental Health</h2>
+            <p class="section-text">We are committed to providing the highest standard of care in a friendly and comfortable environment.</p>
+            <a href="#" class="btn book-btn">Book Appointment</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="section cta" aria-label="cta">
+        <div class="container cta-container">
+          <figure class="cta-banner">
+            <img src="images/cta-banner.png" width="1056" height="1076" loading="lazy" alt="Book Dental Appointment" class="w-100">
+          </figure>
+          <div class="cta-content">
+            <p class="section-subtitle">Book Dental Appointment</p>
+            <h2 class="h2 section-title">We Are Open And Welcoming Patients</h2>
+            <a href="#" class="btn book-btn">Book Appointment</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="section contact" id="contact" aria-label="Contact us">
+        <div class="container contact-grid">
+          <div class="contact-info">
+            <h3 class="h3 section-title">Contact Us</h3>
+            <p>Arapalayam main road, Jallikattu statue round,<br>Near Arapalayam, Ponnagaram,<br>Madurai, Tamil Nadu 625016</p>
+            <p><strong>Phone:</strong> <a href="tel:+916369159310">+91-63691 593106</a></p>
+            <p><strong>Email:</strong> <a href="mailto:sripugaldentalcare@gmail.com">sripugaldentalcare@gmail.com</a></p>
+            <div class="map">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.303997818482!2d78.09437021480048!3d9.925200492901004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b00c58f6ad3c0f5%3A0x6e78a7e3e3dbd7d3!2sPonnagaram%2C%20Madurai%2C%20Tamil%20Nadu%20625016!5e0!3m2!1sen!2sin!4v1694699264900!5m2!1sen!2sin" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+          </div>
+
+          <div class="contact-form">
+            <h3 class="h3 section-title">Send Us a Message</h3>
+            <form id="contact-form">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Your Email" required>
+              <input type="tel" name="phone" placeholder="Your Phone" required>
+              <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+              <button type="submit" class="btn">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top section">
+      <div class="container">
+        <div class="footer-brand">
+          <a href="#" class="logo">PUGAL DENTAL CARE.</a>
+          <p class="footer-text">Pugal Dental Care offers expert dental services with a focus on patient comfort and quality care.</p>
+          <div class="schedule">
+            <div class="schedule-icon"><ion-icon name="time-outline"></ion-icon></div>
+            <span class="span">Monday - Saturday:<br>9:00am - 10:00Pm</span>
+          </div>
+        </div>
+        <ul class="footer-list">
+          <li><p class="footer-list-title">Other Links</p></li>
+          <li><a href="#home" class="footer-link"><ion-icon name="add-outline"></ion-icon><span class="span">Home</span></a></li>
+          <li><a href="#about" class="footer-link"><ion-icon name="add-outline"></ion-icon><span class="span">About Us</span></a></li>
+          <li><a href="#service" class="footer-link"><ion-icon name="add-outline"></ion-icon><span class="span">Services</span></a></li>
+          <li><a href="#contact" class="footer-link"><ion-icon name="add-outline"></ion-icon><span class="span">Contact</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p class="copyright">&copy; 2024 All Rights Reserved by PugalDental.</p>
+        <ul class="social-list">
+          <li><a href="#" class="social-link"><ion-icon name="logo-facebook"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-instagram"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-twitter"></ion-icon></a></li>
+          <li><a href="#" class="social-link"><ion-icon name="logo-youtube"></ion-icon></a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Appointment Modal -->
+  <div id="appointmentModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Book Appointment</h2>
+      <form id="appointment-form">
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+        <input type="tel" id="phone" name="phone" placeholder="Your Phone" required>
+        <input type="date" id="date" name="date" required>
+        <input type="time" name="time" required>
+                <textarea id="message" placeholder="Your Message"></textarea>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Book Appointment Modal
+    document.querySelectorAll('.book-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        document.getElementById('appointmentModal').style.display = 'flex';
+      });
+    });
+    document.querySelector('.close-btn').onclick = () => {
+      document.getElementById('appointmentModal').style.display = 'none';
+    };
+    window.onclick = e => {
+      if (e.target == document.getElementById('appointmentModal')) {
+        document.getElementById('appointmentModal').style.display = 'none';
+      }
+    };
+
+    // Contact Form Submission
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+        .then(() => { alert('Message sent successfully!'); this.reset(); })
+        .catch(err => { alert('Failed to send message.'); console.error(err); });
+    });
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>
