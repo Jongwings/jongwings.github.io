@@ -265,13 +265,22 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <h2>Book Appointment</h2>
-      <form id="appointment-form">
+      <form id="appointment-form"
+      action="https://script.google.com/macros/s/AKfycbwXLMeN90gJTaqgKX0dQ90H1uzU_Bo57HMkkoYsk0G5gSQDWH7CstAfwLb_ahvzlbJPRQ/exec"
+      method="POST"
+      target="formTarget">
         <input type="text" id="name" name="name" placeholder="Your Name" required>
         <input type="email" id="email" name="email" placeholder="Your Email" required>
         <input type="tel" id="phone" name="phone" placeholder="Your Phone" required>
         <input type="date" id="date" name="date" required>
         <input type="time" name="time" required>
-                <textarea id="message" placeholder="Your Message"></textarea>
+
+        <input type="hidden" name="preferred_date" id="preferred_date_hidden">
+        <input type="hidden" name="preferred_time" id="preferred_time_hidden">
+        <input type="hidden" name="service" value="Dental appointment">
+        <input type="hidden" name="notes" id="notes_hidden">
+
+        <textarea id="message" placeholder="Your Message"></textarea>
         <button type="submit" class="btn">Submit</button>
       </form>
     </div>
@@ -304,5 +313,6 @@
     });
   </script>
   <script src="js/main.js?v=1"></script>
+  <iframe name="formTarget" id="formTarget" style="display:none;"></iframe>
 </body>
 </html>
