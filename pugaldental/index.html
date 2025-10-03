@@ -266,22 +266,16 @@
       <span class="close-btn">&times;</span>
       <h2>Book Appointment</h2>
       <form id="appointment-form"
-      action="https://script.google.com/macros/s/AKfycbwXLMeN90gJTaqgKX0dQ90H1uzU_Bo57HMkkoYsk0G5gSQDWH7CstAfwLb_ahvzlbJPRQ/exec"
+      action="https://script.google.com/macros/s/AKfycby7mJv8FE9tDinBsm3a7x1Dc6yAOwyAgogr5TzqAnleOLnsd7R2tOf6h9zAC0rrkXN3wQ/exec"
       method="POST"
       target="formTarget">
         <input type="text" id="name" name="name" placeholder="Your Name" required>
         <input type="email" id="email" name="email" placeholder="Your Email" required>
         <input type="tel" id="phone" name="phone" placeholder="Your Phone" required>
-        <input type="date" id="date" name="date" required>
-        <input type="time" name="time" required>
-
-        <input type="hidden" name="preferred_date" id="preferred_date_hidden">
-        <input type="hidden" name="preferred_time" id="preferred_time_hidden">
+        <input type="date" id="date" name="preferred_date" required>
+        <input type="time" id="time"  name="preferred_time" required>
         <input type="hidden" name="service" value="Dental appointment">
-        <input type="hidden" name="notes" id="notes_hidden">
-
-        <textarea id="message" placeholder="Your Message"></textarea>
-        <button type="submit" class="btn">Submit</button>
+        <button type="submit" class="btn" id="submitBtn">Submit</button>
       </form>
     </div>
   </div>
@@ -312,7 +306,7 @@
         .catch(err => { alert('Failed to send message.'); console.error(err); });
     });
   </script>
-  <script src="js/main.js?v=1"></script>
+  <script src="js/main.js?v=6"></script>
   <iframe name="formTarget" id="formTarget" style="display:none;"></iframe>
 </body>
 </html>
