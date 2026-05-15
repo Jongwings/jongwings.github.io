@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrightSmile Dental CRM Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-700: #1D4ED8;
+      --primary-soft: #EAF1FF;
+      --teal: #14B8A6;
+      --bg: #F4F7FB;
+      --card: #FFFFFF;
+      --text: #0F172A;
+      --muted: #64748B;
+      --muted-2: #94A3B8;
+      --success: #22C55E;
+      --success-soft: #DCFCE7;
+      --warning: #F59E0B;
+      --warning-soft: #FFF4E5;
+      --danger: #EF4444;
+      --border: #E2E8F0;
+      --purple: #8B5CF6;
+      --orange: #F97316;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, .04);
+      --shadow-md: 0 12px 30px rgba(15, 23, 42, .07);
+      --shadow-lg: 0 24px 55px rgba(37, 99, 235, .12);
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --sidebar: 288px;
+      --topbar: 88px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 38% 0%, rgba(37, 99, 235, .06), transparent 30%),
+        linear-gradient(180deg, #FBFDFF 0%, var(--bg) 100%);
+      overflow-x: hidden;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; border: 0; }
+    a { color: inherit; text-decoration: none; }
+    svg { display: block; }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar) minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(18px);
+      border-right: 1px solid var(--border);
+      padding: 24px 14px;
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 2px 12px 26px;
+      border-bottom: 1px solid #EEF2F7;
+      margin-bottom: 14px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+    }
+
+    .brand-name {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      color: var(--primary);
+    }
+
+    .brand-subtitle {
+      margin-top: 5px;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .sidebar-collapse {
+      margin-left: auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      color: #475569;
+      transition: .2s ease;
+    }
+    .sidebar-collapse:hover { background: #F1F5F9; color: var(--primary); }
+
+    .nav-list {
+      display: grid;
+      gap: 8px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: 11px;
+      color: #1E2F4D;
+      font-weight: 650;
+      font-size: 15px;
+      transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+    .nav-link svg { color: #53627B; }
+    .nav-link:hover {
+      background: #F2F6FD;
+      color: var(--primary);
+      transform: translateX(2px);
+    }
+    .nav-link:hover svg { color: var(--primary); }
+    .nav-link.active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary) 0%, #1E5BEE 100%);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, .25);
+    }
+    .nav-link.active svg { color: #fff; }
+
+    .upgrade-card {
+      margin-top: auto;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #fff 0%, #FBFDFF 100%);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .upgrade-head { display: flex; align-items: center; gap: 12px; }
+    .upgrade-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: var(--teal);
+      background: #DFFCF8;
+      flex: 0 0 auto;
+    }
+    .upgrade-title { margin: 0; font-size: 14px; color: #0891B2; font-weight: 800; }
+    .upgrade-text { margin: 16px 0 18px 44px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .upgrade-btn {
+      width: 100%;
+      height: 42px;
+      border-radius: 9px;
+      border: 1px solid var(--teal);
+      color: #0891B2;
+      background: #fff;
+      font-weight: 750;
+      transition: .2s ease;
+    }
+    .upgrade-btn:hover { background: #ECFEFF; transform: translateY(-1px); }
+
+    .main-area { min-width: 0; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      min-height: var(--topbar);
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 20px 28px;
+      border-bottom: 1px solid rgba(226, 232, 240, .82);
+      background: rgba(255, 255, 255, .76);
+      backdrop-filter: blur(16px);
+    }
+
+    .mobile-menu {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      place-items: center;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: min(580px, 48vw);
+      flex: 1 1 420px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748B;
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      height: 47px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .92);
+      padding: 0 76px 0 52px;
+      color: var(--text);
+      outline: none;
+      font-size: 14px;
+      transition: border .2s ease, box-shadow .2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .search-input::placeholder { color: #8A97AA; }
+    .search-input:focus, .search-wrap.focused .search-input {
+      border-color: rgba(37, 99, 235, .45);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, .09), var(--shadow-sm);
+    }
+    .shortcut {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      min-width: 48px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      color: #334155;
+      background: #F8FAFC;
+      border: 1px solid #EDF2F7;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .top-actions { display: flex; align-items: center; gap: 13px; }
+    .icon-btn {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: #334155;
+      box-shadow: var(--shadow-sm);
+      transition: .2s ease;
+    }
+    .icon-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(15, 23, 42, .08); }
+    .icon-btn.whatsapp { color: #16A34A; background: #F5FFF8; }
+    .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--danger);
+      color: white;
+      border: 2px solid white;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-left: 10px;
+      border-left: 1px solid var(--border);
+    }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      overflow: hidden;
+      color: white;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0F766E, #60A5FA);
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.52);
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar.sm { width: 38px; height: 38px; font-size: 13px; }
+    .avatar.xs { width: 30px; height: 30px; font-size: 11px; border: 2px solid white; box-shadow: 0 5px 15px rgba(15, 23, 42, .12); }
+    .profile-name { margin: 0; font-size: 15px; font-weight: 800; }
+    .profile-role { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 376px;
+      gap: 24px;
+      padding: 22px 28px 34px;
+    }
+    .content-stack, .right-stack { display: grid; gap: 18px; align-content: start; }
+
+    .card {
+      background: rgba(255, 255, 255, .92);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 32px rgba(15, 23, 42, .045);
+    }
+    .hover-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .hover-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: #D5E2F2;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 300px;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at 88% 30%, rgba(20, 184, 166, .16), transparent 26%),
+        linear-gradient(105deg, #FFFFFF 0%, #F8FBFF 48%, #DDEEFF 100%);
+      display: grid;
+      grid-template-columns: minmax(0, .98fr) minmax(320px, .72fr);
+      gap: 18px;
+      padding: 32px 36px;
+      box-shadow: var(--shadow-lg);
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .eyebrow { margin: 0; color: var(--muted); font-weight: 500; }
+    .hero-title {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 2.5vw, 34px);
+      line-height: 1.12;
+      letter-spacing: -.05em;
+      font-weight: 850;
+    }
+    .hero-metrics {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin: 30px 0 32px;
+    }
+    .hero-metric {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 150px;
+    }
+    .metric-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      background: #E9F1FF;
+    }
+    .metric-icon.teal { color: #0F9F91; background: #DDFBF7; }
+    .metric-value { margin: 0; font-size: 27px; font-weight: 850; letter-spacing: -.04em; }
+    .metric-label { margin: 4px 0 0; color: var(--muted); font-size: 12px; font-weight: 550; white-space: nowrap; }
+    .info-dot { display: inline-grid; place-items: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid #94A3B8; font-size: 9px; margin-left: 5px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    .btn {
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 13px;
+      border: 1px solid transparent;
+      transition: .2s ease;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, #2F6DF3, #1D5BEA);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, .25);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 15px 30px rgba(37, 99, 235, .28); }
+    .btn-secondary {
+      color: #0F172A;
+      background: #fff;
+      border-color: #CBD5E1;
+    }
+    .btn-secondary:hover { background: #F8FAFC; border-color: #B7C4D6; }
+
+    .dental-art {
+      position: relative;
+      min-height: 230px;
+      align-self: stretch;
+      isolation: isolate;
+    }
+    .chair {
+      position: absolute;
+      right: 9px;
+      bottom: 35px;
+      width: 170px;
+      height: 104px;
+      border-radius: 18px 18px 45px 45px;
+      background: linear-gradient(135deg, #F9FCFF 0%, #CDE4FF 70%);
+      box-shadow: -18px 24px 34px rgba(37, 99, 235, .14);
+      transform: skewY(-7deg);
+    }
+    .chair::before {
+      content: "";
+      position: absolute;
+      top: 21px;
+      right: -16px;
+      width: 90px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2C79EA, #78B9FF);
+      transform: rotate(-17deg);
+    }
+    .chair::after {
+      content: "";
+      position: absolute;
+      bottom: -36px;
+      left: 62px;
+      width: 52px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #B8D7F5, #E6F2FF);
+    }
+    .lamp {
+      position: absolute;
+      right: 70px;
+      top: 8px;
+      width: 86px;
+      height: 82px;
+      border-top: 8px solid #DAE9F8;
+      border-right: 8px solid #DAE9F8;
+      border-radius: 0 24px 0 0;
+      opacity: .92;
+    }
+    .lamp::after {
+      content: "";
+      position: absolute;
+      left: -40px;
+      bottom: -34px;
+      width: 64px;
+      height: 32px;
+      border-radius: 50% 50% 14px 14px;
+      background: linear-gradient(180deg, #F8FCFF, #C9E2FF);
+      transform: rotate(18deg);
+      box-shadow: 0 8px 16px rgba(15,23,42,.08);
+    }
+    .tooth-art {
+      position: absolute;
+      left: 38px;
+      bottom: 35px;
+      width: 124px;
+      height: 150px;
+      background: linear-gradient(145deg, #FFFFFF 10%, #E5F1FF 100%);
+      border-radius: 48% 52% 42% 44% / 33% 35% 62% 64%;
+      box-shadow: -22px 28px 45px rgba(15, 23, 42, .12), inset -8px -10px 18px rgba(37, 99, 235, .08);
+    }
+    .tooth-art::before,
+    .tooth-art::after {
+      content: "";
+      position: absolute;
+      bottom: -31px;
+      width: 44px;
+      height: 76px;
+      background: inherit;
+      border-radius: 0 0 30px 30px;
+    }
+    .tooth-art::before { left: 19px; transform: rotate(6deg); }
+    .tooth-art::after { right: 19px; transform: rotate(-6deg); }
+    .mirror-tool {
+      position: absolute;
+      left: -4px;
+      top: 84px;
+      width: 6px;
+      height: 170px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, #6B7280, #D1D5DB);
+      transform: rotate(-18deg);
+      box-shadow: 0 10px 16px rgba(15, 23, 42, .12);
+    }
+    .mirror-tool::before {
+      content: "";
+      position: absolute;
+      top: -52px;
+      left: -25px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: 7px solid #A6B3C6;
+      background: rgba(255,255,255,.42);
+      box-shadow: inset 0 5px 10px rgba(15,23,42,.08);
+    }
+    .brush {
+      position: absolute;
+      right: 0;
+      top: 93px;
+      width: 25px;
+      height: 124px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, #1D5BEA, #7EC7FF);
+      transform: rotate(34deg);
+      box-shadow: 0 14px 24px rgba(37,99,235,.18);
+    }
+    .brush::before {
+      content: "";
+      position: absolute;
+      top: -25px;
+      left: -5px;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #E5F1FF, #76B8F6);
+    }
+    .plant {
+      position: absolute;
+      right: -5px;
+      bottom: 10px;
+      width: 45px;
+      height: 55px;
+      border-radius: 7px 7px 16px 16px;
+      background: linear-gradient(180deg, #E6F4FF, #B8DDFE);
+    }
+    .plant::before, .plant::after {
+      content: "";
+      position: absolute;
+      bottom: 36px;
+      width: 16px;
+      height: 42px;
+      border-radius: 999px 999px 0 999px;
+      background: rgba(20, 184, 166, .55);
+      transform-origin: bottom center;
+    }
+    .plant::before { left: 8px; transform: rotate(-35deg); }
+    .plant::after { right: 8px; transform: rotate(33deg); }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .kpi-card { padding: 23px 22px; }
+    .kpi-top { display: flex; align-items: center; gap: 14px; }
+    .kpi-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), #5190FF);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, .18);
+    }
+    .kpi-icon.teal { background: linear-gradient(135deg, #0EA5A4, #25D8C8); box-shadow: 0 12px 24px rgba(20, 184, 166, .18); }
+    .kpi-icon.purple { background: linear-gradient(135deg, #7C3AED, #A78BFA); box-shadow: 0 12px 24px rgba(124, 58, 237, .18); }
+    .kpi-icon.orange { background: linear-gradient(135deg, #F59E0B, #FFB94E); box-shadow: 0 12px 24px rgba(245, 158, 11, .18); }
+    .kpi-label { margin: 0; color: #475569; font-size: 13px; font-weight: 700; }
+    .kpi-value { margin: 14px 0 14px; font-size: 25px; font-weight: 850; letter-spacing: -.04em; }
+    .trend { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 600; }
+    .trend strong { color: #16A34A; font-weight: 800; }
+    .trend.warning strong { color: var(--orange); }
+
+    .section-card { overflow: hidden; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title { margin: 0; font-size: 17px; font-weight: 850; letter-spacing: -.02em; }
+    .link { color: var(--primary); font-weight: 750; font-size: 13px; }
+    .link:hover { color: var(--primary-700); text-decoration: underline; }
+
+    .appointments { display: grid; }
+    .appointment-row {
+      display: grid;
+      grid-template-columns: 230px minmax(190px, 1fr) 150px 116px 28px;
+      align-items: center;
+      gap: 18px;
+      padding: 11px 22px;
+      border-bottom: 1px solid #E9EEF5;
+      min-height: 70px;
+      transition: background .18s ease;
+    }
+    .appointment-row:hover { background: #F8FBFF; }
+    .patient-cell { display: flex; align-items: center; gap: 14px; min-width: 0; }
+    .name { margin: 0; font-weight: 800; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sub { margin: 4px 0 0; color: var(--muted); font-size: 12px; font-weight: 550; }
+    .treatment-cell { display: flex; align-items: center; gap: 13px; min-width: 0; }
+    .treatment-icon { color: var(--teal); flex: 0 0 auto; }
+    .treatment-icon.purple { color: var(--purple); }
+    .treatment-icon.orange { color: var(--orange); }
+    .treatment-icon.green { color: #84CC16; }
+    .time-cell { display: flex; align-items: center; gap: 10px; color: #334155; }
+    .time-text { margin: 0; font-size: 14px; font-weight: 800; color: var(--text); }
+    .status {
+      justify-self: start;
+      min-width: 84px;
+      text-align: center;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--success-soft);
+      color: #16A34A;
+    }
+    .status.progress { background: #EAF2FF; color: #2563EB; }
+    .status.scheduled { background: #F1EAFE; color: #7C3AED; }
+    .dots {
+      color: #64748B;
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+    }
+    .dots:hover { background: #EEF2F7; }
+    .section-footer { padding: 12px 22px 17px; text-align: center; }
+
+    .recent-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      padding: 0 22px 18px;
+    }
+    .recent-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      padding: 12px;
+      border-radius: 13px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+      border: 1px solid #EDF2F7;
+    }
+    .recent-card .name { font-size: 13px; }
+    .recent-card .sub { font-size: 11px; }
+
+    .widget { padding: 20px 21px; }
+    .widget-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 17px; }
+    .widget-title { margin: 0; font-size: 16px; font-weight: 850; letter-spacing: -.02em; }
+    .follow-list, .payment-list { display: grid; gap: 17px; }
+    .follow-item, .payment-item { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+    .follow-person { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .day-badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 7px 11px;
+      color: #F97316;
+      background: var(--warning-soft);
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .review-score { display: flex; align-items: center; gap: 13px; margin-bottom: 18px; }
+    .score { font-size: 38px; font-weight: 850; letter-spacing: -.05em; }
+    .stars { display: flex; gap: 2px; color: var(--warning); margin-bottom: 4px; }
+    .review-card {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 14px;
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #FFFFFF;
+    }
+    .google-g {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      font-weight: 850;
+      color: #4285F4;
+      font-family: Arial, sans-serif;
+    }
+    .review-text { margin: 0; color: #334155; line-height: 1.55; font-size: 14px; font-weight: 550; }
+    .queue-body { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .queue-number { margin: 0; font-size: 27px; font-weight: 850; }
+    .avatar-stack { display: flex; align-items: center; margin-top: 14px; }
+    .avatar-stack .avatar { margin-left: -8px; }
+    .avatar-stack .avatar:first-child { margin-left: 0; }
+    .more-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      margin-left: -8px;
+      background: #EEF2FF;
+      color: #475569;
+      border: 2px solid white;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .big-wa {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: #22C55E;
+      background: #F0FDF4;
+    }
+    .amount { color: var(--danger); font-weight: 800; font-size: 13px; }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .38);
+      z-index: 45;
+    }
+
+    @media (max-width: 1320px) {
+      :root { --sidebar: 250px; }
+      .dashboard-grid { grid-template-columns: minmax(0, 1fr) 330px; gap: 18px; padding-inline: 22px; }
+      .hero-card { grid-template-columns: minmax(0, 1fr); }
+      .dental-art { display: none; }
+      .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .appointment-row { grid-template-columns: 210px minmax(180px, 1fr) 132px 102px 24px; gap: 12px; }
+      .recent-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 1080px) {
+      .app-shell { grid-template-columns: 88px minmax(0, 1fr); }
+      .sidebar { padding-inline: 12px; align-items: center; }
+      .brand { padding-inline: 0; justify-content: center; }
+      .brand-copy, .sidebar-collapse, .nav-label, .upgrade-card { display: none; }
+      .nav-link { width: 56px; height: 54px; justify-content: center; padding: 0; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .right-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .search-wrap { width: auto; }
+    }
+
+    @media (max-width: 760px) {
+      .app-shell { display: block; }
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 286px;
+        max-width: calc(100vw - 48px);
+        transform: translateX(-104%);
+        transition: transform .24s ease;
+        align-items: stretch;
+        padding: 22px 14px;
+      }
+      body.sidebar-open .sidebar { transform: translateX(0); }
+      body.sidebar-open .overlay { display: block; }
+      .brand { justify-content: flex-start; padding-inline: 10px; }
+      .brand-copy, .sidebar-collapse, .nav-label, .upgrade-card { display: block; }
+      .sidebar-collapse { display: grid; }
+      .nav-link { width: auto; height: auto; justify-content: flex-start; padding: 14px 18px; }
+
+      .topbar {
+        padding: 14px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .mobile-menu { display: grid; }
+      .search-wrap { order: 2; flex-basis: 100%; width: 100%; }
+      .top-actions { margin-left: auto; gap: 8px; }
+      .profile { padding-left: 8px; }
+      .profile-copy, .profile svg { display: none; }
+      .icon-btn { width: 40px; height: 40px; }
+      .dashboard-grid { padding: 16px 14px 26px; }
+      .hero-card { min-height: auto; padding: 24px 20px; border-radius: 18px; }
+      .hero-metrics { gap: 18px; margin: 24px 0; }
+      .hero-metric { min-width: 100%; }
+      .hero-actions .btn { width: 100%; }
+      .kpi-grid, .right-stack { grid-template-columns: 1fr; }
+      .section-header { padding: 16px; }
+      .appointments { padding: 10px; gap: 10px; }
+      .appointment-row {
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "patient dots"
+          "treatment treatment"
+          "time status";
+        gap: 12px;
+        min-height: auto;
+        padding: 15px;
+        border: 1px solid #E9EEF5;
+        border-radius: 14px;
+        background: #fff;
+      }
+      .patient-cell { grid-area: patient; }
+      .treatment-cell { grid-area: treatment; }
+      .time-cell { grid-area: time; }
+      .status { grid-area: status; justify-self: end; }
+      .dots { grid-area: dots; }
+      .recent-grid {
+        display: flex;
+        overflow-x: auto;
+        padding: 0 16px 18px;
+        scroll-snap-type: x mandatory;
+      }
+      .recent-card { min-width: 235px; scroll-snap-align: start; }
+      .widget { padding: 18px 16px; }
+    }
+
+    @media (max-width: 420px) {
+      .top-actions .icon-btn.whatsapp { display: none; }
+      .hero-title { font-size: 24px; }
+      .metric-value { font-size: 23px; }
+      .kpi-card { padding: 19px; }
+      .review-score { align-items: flex-start; flex-direction: column; gap: 4px; }
+      .follow-item { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay"></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="42" height="42" viewBox="0 0 48 48" fill="none">
+            <path d="M15.3 5.8C9.8 5.8 7 10.4 7.6 16.2c.5 4.8 3.3 9.2 4 14.1.8 5.5 2 11.8 5.2 11.8 3.7 0 3-11.1 7.2-11.1s3.5 11.1 7.2 11.1c3.2 0 4.4-6.3 5.2-11.8.7-4.9 3.5-9.3 4-14.1.6-5.8-2.2-10.4-7.7-10.4-4.5 0-5.7 2.2-8.7 2.2s-4.2-2.2-8.7-2.2Z" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <h1 class="brand-name">BrightSmile</h1>
+          <div class="brand-subtitle">Dental Clinic</div>
+        </div>
+        <button class="sidebar-collapse" id="closeSidebar" aria-label="Close menu">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <nav>
+        <ul class="nav-list">
+          <li><a href="#" class="nav-link active"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="m3 10.5 9-7 9 7V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Dashboard</span></a></li>
+          <li><a href="./patients.html" class="nav-link"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM21 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Patients</span></a></li>
+          <li><a href="./appointments.html" class="nav-link"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Appointments</span></a></li>
+          <li><a href="./treatments.html" class="nav-link"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M12 3.2c-2.7-2.2-7.2-.7-7.2 3.7 0 3.6 2.7 6 3 10 .2 2.4.8 4 2 4 1.5 0 1.4-4.8 2.2-4.8s.7 4.8 2.2 4.8c1.2 0 1.8-1.6 2-4 .3-4 3-6.4 3-10 0-4.4-4.5-5.9-7.2-3.7Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Treatments</span></a></li>
+          <li><a href="./billing.html" class="nav-link"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7l-5-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v5h5M9 14h6M9 18h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="nav-label">Billing</span></a></li>
+          <li><a href="./whatsapp.html" class="nav-link"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.7 7.4L3 20.5l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z" fill="#22C55E"/><path d="M8.7 7.7c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.5.6c-.1.1-.2.3-.1.5.3.6.8 1.3 1.4 1.8.6.6 1.2 1 2 1.3.2.1.3.1.5-.1l.8-.8c.2-.2.4-.2.6-.1l1.8.8c.3.1.4.3.4.6 0 .7-.2 1.4-.5 1.6-.4.4-1.6.7-4.1-.4-3.4-1.5-5.5-4.9-5.7-5.2-.2-.2-1.3-1.8-1.3-3.3 0-1 .5-1.5.8-1.8Z" fill="white"/></svg><span class="nav-label">WhatsApp</span></a></li>
+          <li><a href="./reports.html" class="nav-link"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Reports</span></a></li>
+          <li><a href="./settings.html" class="nav-link"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z" stroke="currentColor" stroke-width="1.8"/><path d="m19.4 15 .1 2.2-2.1 2.1-2.2-.8c-.5.3-1 .5-1.6.7L12.7 21H9.8l-.9-1.8c-.6-.2-1.1-.4-1.6-.7l-2.2.8-2.1-2.1.1-2.2c-.3-.5-.5-1-.7-1.6L.6 12.5V9.6l1.8-.9c.2-.6.4-1.1.7-1.6L3 4.9l2.1-2.1 2.2.8c.5-.3 1-.5 1.6-.7L9.8 1h2.9l.9 1.9c.6.2 1.1.4 1.6.7l2.2-.8 2.1 2.1-.1 2.2c.3.5.5 1 .7 1.6l1.8.9v2.9l-1.8.9c-.2.6-.4 1.1-.7 1.6Z" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Settings</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="upgrade-card">
+        <div class="upgrade-head">
+          <div class="upgrade-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M6 3h12l4 6-10 12L2 9l4-6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M2 9h20M8 3l4 18 4-18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h2 class="upgrade-title">Upgrade to Premium</h2>
+        </div>
+        <p class="upgrade-text">Unlock advanced features and reports.</p>
+        <button class="upgrade-btn">Upgrade Now</button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="openSidebar" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="search-wrap" id="searchWrap">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input class="search-input" id="searchInput" type="search" placeholder="Search patients, appointments, treatments..." />
+          <span class="shortcut">⌘ K</span>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" aria-label="Notifications">
+            <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM13.7 21a2 2 0 0 1-3.4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="badge">3</span>
+          </button>
+          <button class="icon-btn whatsapp" aria-label="WhatsApp">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.7 7.4L3 20.5l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z" fill="currentColor"/><path d="M8.7 7.7c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.5.6c-.1.1-.2.3-.1.5.3.6.8 1.3 1.4 1.8.6.6 1.2 1 2 1.3.2.1.3.1.5-.1l.8-.8c.2-.2.4-.2.6-.1l1.8.8c.3.1.4.3.4.6 0 .7-.2 1.4-.5 1.6-.4.4-1.6.7-4.1-.4-3.4-1.5-5.5-4.9-5.7-5.2-.2-.2-1.3-1.8-1.3-3.3 0-1 .5-1.5.8-1.8Z" fill="white"/></svg>
+          </button>
+          <div class="profile">
+            <div class="avatar"><span>DS</span></div>
+            <div class="profile-copy">
+              <p class="profile-name">Dr. Sharma</p>
+              <p class="profile-role">Admin</p>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-grid">
+        <section class="content-stack">
+          <article class="hero-card card">
+            <div class="hero-content">
+              <h2 class="hero-title">Good Morning, Dr. Sharma 👋</h2>
+              <p class="eyebrow">Here’s what's happening with your clinic today.</p>
+              <div class="hero-metrics">
+                <div class="hero-metric">
+                  <div class="metric-icon"><svg width="27" height="27" viewBox="0 0 24 24" fill="none"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div><p class="metric-value">18</p><p class="metric-label">Appointments Today</p></div>
+                </div>
+                <div class="hero-metric">
+                  <div class="metric-icon"><svg width="27" height="27" viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div><p class="metric-value">4</p><p class="metric-label">Pending Follow-Ups</p></div>
+                </div>
+                <div class="hero-metric">
+                  <div class="metric-icon teal"><svg width="27" height="27" viewBox="0 0 24 24" fill="none"><path d="M7 4h10M7 8h10M8 4c6.5 0 6.5 9 0 9h-1l8 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div><p class="metric-value">₹24,500</p><p class="metric-label">Revenue Today <span class="info-dot">i</span></p></div>
+                </div>
+              </div>
+              <div class="hero-actions">
+                <button class="btn btn-primary"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Appointment</button>
+                <button class="btn btn-secondary"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Add Patient</button>
+                <button class="btn btn-secondary"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Open Calendar</button>
+              </div>
+            </div>
+            <div class="dental-art" aria-hidden="true">
+              <div class="lamp"></div>
+              <div class="mirror-tool"></div>
+              <div class="tooth-art"></div>
+              <div class="chair"></div>
+              <div class="brush"></div>
+              <div class="plant"></div>
+            </div>
+          </article>
+
+          <div class="kpi-grid">
+            <article class="kpi-card card hover-card"><div class="kpi-top"><div class="kpi-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><p class="kpi-label">Total Patients</p></div><p class="kpi-value">2,453</p><div class="trend"><strong>↑ 12.5%</strong><span>vs last month</span></div></article>
+            <article class="kpi-card card hover-card"><div class="kpi-top"><div class="kpi-icon teal"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 4h10M7 8h10M8 4c6.5 0 6.5 9 0 9h-1l8 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p class="kpi-label">Revenue</p></div><p class="kpi-value">₹7,48,900</p><div class="trend"><strong>↑ 18.3%</strong><span>vs last month</span></div></article>
+            <article class="kpi-card card hover-card"><div class="kpi-top"><div class="kpi-icon purple"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3.2c-2.7-2.2-7.2-.7-7.2 3.7 0 3.6 2.7 6 3 10 .2 2.4.8 4 2 4 1.5 0 1.4-4.8 2.2-4.8s.7 4.8 2.2 4.8c1.2 0 1.8-1.6 2-4 .3-4 3-6.4 3-10 0-4.4-4.5-5.9-7.2-3.7Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg></div><p class="kpi-label">Treatments</p></div><p class="kpi-value">1,247</p><div class="trend"><strong>↑ 9.8%</strong><span>vs last month</span></div></article>
+            <article class="kpi-card card hover-card"><div class="kpi-top"><div class="kpi-icon orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 7h18v12H3V7ZM3 10h18M7 15h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p class="kpi-label">Pending Payments</p></div><p class="kpi-value">₹1,32,800</p><div class="trend warning"><strong>↑ 7.2%</strong><span>vs last month</span></div></article>
+          </div>
+
+          <article class="section-card card">
+            <div class="section-header"><h2 class="section-title">Today's Appointments</h2><a href="#" class="link">View Calendar →</a></div>
+            <div class="appointments">
+              <div class="appointment-row"><div class="patient-cell"><div class="avatar sm" style="background:linear-gradient(135deg,#B45309,#F9A8D4)">PM</div><div><p class="name">Priya Mehta</p><p class="sub">#PT1025</p></div></div><div class="treatment-cell"><svg class="treatment-icon" width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M12 3.2c-2.7-2.2-7.2-.7-7.2 3.7 0 3.6 2.7 6 3 10 .2 2.4.8 4 2 4 1.5 0 1.4-4.8 2.2-4.8s.7 4.8 2.2 4.8c1.2 0 1.8-1.6 2-4 .3-4 3-6.4 3-10 0-4.4-4.5-5.9-7.2-3.7Z" stroke="currentColor" stroke-width="1.8"/></svg><div><p class="name">Teeth Cleaning</p><p class="sub">General Dentistry</p></div></div><div class="time-cell"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 6v6l4 2" stroke="#64748B" stroke-width="1.8" stroke-linecap="round"/></svg><div><p class="time-text">09:30 AM</p><p class="sub">30 mins</p></div></div><span class="status">Confirmed</span><button class="dots">⋮</button></div>
+              <div class="appointment-row"><div class="patient-cell"><div class="avatar sm" style="background:linear-gradient(135deg,#0F766E,#93C5FD)">RV</div><div><p class="name">Rahul Verma</p><p class="sub">#PT1026</p></div></div><div class="treatment-cell"><svg class="treatment-icon purple" width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M12 3.2c-2.7-2.2-7.2-.7-7.2 3.7 0 3.6 2.7 6 3 10 .2 2.4.8 4 2 4 1.5 0 1.4-4.8 2.2-4.8s.7 4.8 2.2 4.8c1.2 0 1.8-1.6 2-4 .3-4 3-6.4 3-10 0-4.4-4.5-5.9-7.2-3.7Z" stroke="currentColor" stroke-width="1.8"/></svg><div><p class="name">Dental Filling</p><p class="sub">Restorative</p></div></div><div class="time-cell"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 6v6l4 2" stroke="#64748B" stroke-width="1.8" stroke-linecap="round"/></svg><div><p class="time-text">10:30 AM</p><p class="sub">45 mins</p></div></div><span class="status">Confirmed</span><button class="dots">⋮</button></div>
+              <div class="appointment-row"><div class="patient-cell"><div class="avatar sm" style="background:linear-gradient(135deg,#BE185D,#FDBA74)">AS</div><div><p class="name">Anjali Singh</p><p class="sub">#PT1027</p></div></div><div class="treatment-cell"><svg class="treatment-icon" width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M12 3 4 8l8 13 8-13-8-5ZM4 8h16M8.5 8 12 21 15.5 8" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><div><p class="name">Teeth Whitening</p><p class="sub">Cosmetic Dentistry</p></div></div><div class="time-cell"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 6v6l4 2" stroke="#64748B" stroke-width="1.8" stroke-linecap="round"/></svg><div><p class="time-text">11:30 AM</p><p class="sub">60 mins</p></div></div><span class="status progress">In Progress</span><button class="dots">⋮</button></div>
+              <div class="appointment-row"><div class="patient-cell"><div class="avatar sm" style="background:linear-gradient(135deg,#7C2D12,#CBD5E1)">VP</div><div><p class="name">Vikram Patel</p><p class="sub">#PT1028</p></div></div><div class="treatment-cell"><svg class="treatment-icon orange" width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M12 3.2c-2.7-2.2-7.2-.7-7.2 3.7 0 3.6 2.7 6 3 10 .2 2.4.8 4 2 4 1.5 0 1.4-4.8 2.2-4.8s.7 4.8 2.2 4.8c1.2 0 1.8-1.6 2-4 .3-4 3-6.4 3-10 0-4.4-4.5-5.9-7.2-3.7Z" stroke="currentColor" stroke-width="1.8"/></svg><div><p class="name">Root Canal</p><p class="sub">Endodontics</p></div></div><div class="time-cell"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 6v6l4 2" stroke="#64748B" stroke-width="1.8" stroke-linecap="round"/></svg><div><p class="time-text">12:30 PM</p><p class="sub">60 mins</p></div></div><span class="status scheduled">Scheduled</span><button class="dots">⋮</button></div>
+              <div class="appointment-row"><div class="patient-cell"><div class="avatar sm" style="background:linear-gradient(135deg,#9D174D,#FBCFE8)">NK</div><div><p class="name">Neha Kapoor</p><p class="sub">#PT1029</p></div></div><div class="treatment-cell"><svg class="treatment-icon green" width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M5 9c4-5 10-5 14 0-4 7-10 7-14 0Z" stroke="currentColor" stroke-width="1.8"/><path d="M12 13a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.8"/></svg><div><p class="name">Orthodontic Consultation</p><p class="sub">Orthodontics</p></div></div><div class="time-cell"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 6v6l4 2" stroke="#64748B" stroke-width="1.8" stroke-linecap="round"/></svg><div><p class="time-text">02:00 PM</p><p class="sub">30 mins</p></div></div><span class="status scheduled">Scheduled</span><button class="dots">⋮</button></div>
+            </div>
+            <div class="section-footer"><a href="#" class="link">View all appointments →</a></div>
+          </article>
+
+          <article class="section-card card">
+            <div class="section-header"><h2 class="section-title">Recent Patients</h2><a href="#" class="link">View All</a></div>
+            <div class="recent-grid">
+              <div class="recent-card"><div class="avatar sm" style="background:linear-gradient(135deg,#0F766E,#93C5FD)">AG</div><div><p class="name">Aman Gupta</p><p class="sub">#PT1020</p><p class="sub">Root Canal</p><p class="sub">2 days ago</p></div></div>
+              <div class="recent-card"><div class="avatar sm" style="background:linear-gradient(135deg,#9D174D,#FBCFE8)">SK</div><div><p class="name">Simran Kaur</p><p class="sub">#PT1021</p><p class="sub">Teeth Cleaning</p><p class="sub">3 days ago</p></div></div>
+              <div class="recent-card"><div class="avatar sm" style="background:linear-gradient(135deg,#7C2D12,#CBD5E1)">AN</div><div><p class="name">Aditya Narayan</p><p class="sub">#PT1022</p><p class="sub">Dental Filling</p><p class="sub">5 days ago</p></div></div>
+              <div class="recent-card"><div class="avatar sm" style="background:linear-gradient(135deg,#BE185D,#FDBA74)">KR</div><div><p class="name">Kavya Reddy</p><p class="sub">#PT1023</p><p class="sub">Orthodontic</p><p class="sub">1 week ago</p></div></div>
+              <div class="recent-card"><div class="avatar sm" style="background:linear-gradient(135deg,#0F766E,#60A5FA)">SR</div><div><p class="name">Siddharth Roy</p><p class="sub">#PT1024</p><p class="sub">Teeth Whitening</p><p class="sub">1 week ago</p></div></div>
+            </div>
+          </article>
+        </section>
+
+        <aside class="right-stack" aria-label="Dashboard widgets">
+          <article class="widget card hover-card"><div class="widget-header"><h2 class="widget-title">Pending Follow-Ups</h2><a href="#" class="link">View All</a></div><div class="follow-list">
+            <div class="follow-item"><div class="follow-person"><div class="avatar sm" style="background:linear-gradient(135deg,#7C2D12,#CBD5E1)">RG</div><div><p class="name">Rohan Gupta</p><p class="sub">Root Canal Treatment</p></div></div><span class="day-badge">2 Days</span></div>
+            <div class="follow-item"><div class="follow-person"><div class="avatar sm" style="background:linear-gradient(135deg,#9D174D,#FBCFE8)">SI</div><div><p class="name">Sneha Iyer</p><p class="sub">Teeth Whitening</p></div></div><span class="day-badge">3 Days</span></div>
+            <div class="follow-item"><div class="follow-person"><div class="avatar sm" style="background:linear-gradient(135deg,#0F766E,#93C5FD)">AM</div><div><p class="name">Arjun Malhotra</p><p class="sub">Dental Filling</p></div></div><span class="day-badge">5 Days</span></div>
+            <div class="follow-item"><div class="follow-person"><div class="avatar sm" style="background:linear-gradient(135deg,#BE185D,#FDBA74)">MJ</div><div><p class="name">Meera Joshi</p><p class="sub">Braces Adjustment</p></div></div><span class="day-badge">7 Days</span></div>
+          </div></article>
+
+          <article class="widget card hover-card"><div class="widget-header"><h2 class="widget-title">Google Reviews</h2><a href="#" class="link">View All</a></div><div class="review-score"><div class="score">4.8</div><div><div class="stars">★★★★★</div><p class="sub">Based on 126 reviews</p></div></div><div class="review-card"><div class="google-g">G</div><div><p class="review-text">Excellent care and very professional team. Highly recommended!</p><p class="review-text" style="margin-top:6px;">— Aditi Sharma</p></div></div></article>
+
+          <article class="widget card hover-card"><div class="widget-header"><h2 class="widget-title">WhatsApp Reminder Queue</h2><a href="#" class="link">View All</a></div><div class="queue-body"><div><p class="queue-number">12</p><p class="sub">Messages to send</p><div class="avatar-stack"><div class="avatar xs" style="background:linear-gradient(135deg,#7C2D12,#CBD5E1)">RG</div><div class="avatar xs" style="background:linear-gradient(135deg,#9D174D,#FBCFE8)">SI</div><div class="avatar xs" style="background:linear-gradient(135deg,#0F766E,#93C5FD)">AM</div><div class="avatar xs" style="background:linear-gradient(135deg,#BE185D,#FDBA74)">MJ</div><div class="avatar xs" style="background:linear-gradient(135deg,#0F766E,#60A5FA)">NK</div><span class="more-badge">+7</span></div></div><div class="big-wa"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.7 7.4L3 20.5l1.3-4.7A8.5 8.5 0 1 1 20.5 11.8Z" fill="currentColor"/><path d="M8.7 7.7c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4-.1.6l-.5.6c-.1.1-.2.3-.1.5.3.6.8 1.3 1.4 1.8.6.6 1.2 1 2 1.3.2.1.3.1.5-.1l.8-.8c.2-.2.4-.2.6-.1l1.8.8c.3.1.4.3.4.6 0 .7-.2 1.4-.5 1.6-.4.4-1.6.7-4.1-.4-3.4-1.5-5.5-4.9-5.7-5.2-.2-.2-1.3-1.8-1.3-3.3 0-1 .5-1.5.8-1.8Z" fill="white"/></svg></div></div></article>
+
+          <article class="widget card hover-card"><div class="widget-header"><h2 class="widget-title">Pending Payments</h2><a href="#" class="link">View All</a></div><div class="payment-list">
+            <div class="payment-item"><p class="name">Karan Johar</p><span class="amount">₹8,500</span></div>
+            <div class="payment-item"><p class="name">Pooja Bansal</p><span class="amount">₹4,200</span></div>
+            <div class="payment-item"><p class="name">Ritesh Kumar</p><span class="amount">₹3,700</span></div>
+            <div class="payment-item"><p class="name">Neha Kapoor</p><span class="amount">₹2,900</span></div>
+          </div></article>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const body = document.body;
+    const openSidebar = document.getElementById('openSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const overlay = document.getElementById('overlay');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const searchInput = document.getElementById('searchInput');
+    const searchWrap = document.getElementById('searchWrap');
+
+    function toggleSidebar(show) {
+      body.classList.toggle('sidebar-open', show);
+    }
+
+    openSidebar?.addEventListener('click', () => toggleSidebar(true));
+    closeSidebar?.addEventListener('click', () => toggleSidebar(false));
+    overlay?.addEventListener('click', () => toggleSidebar(false));
+
+    navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 760) toggleSidebar(false);
+  });
+});
+
+    searchInput?.addEventListener('focus', () => searchWrap.classList.add('focused'));
+    searchInput?.addEventListener('blur', () => searchWrap.classList.remove('focused'));
+
+    window.addEventListener('keydown', event => {
+      const isMacShortcut = event.metaKey && event.key.toLowerCase() === 'k';
+      const isWinShortcut = event.ctrlKey && event.key.toLowerCase() === 'k';
+      if (isMacShortcut || isWinShortcut) {
+        event.preventDefault();
+        searchInput?.focus();
+      }
+      if (event.key === 'Escape') toggleSidebar(false);
+    });
+  </script>
+</body>
+</html>
